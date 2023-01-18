@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+  <script type="text/javascript" src="{{url_for('static', filename='sort.js')}}"></script>
+</head>
+<body>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</body>
+</html>

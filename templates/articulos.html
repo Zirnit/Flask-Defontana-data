@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Artículos{% endblock %}
+
+{% block content %}
+    <form method="post">
+        <button type="submit">Actualizar datos</button>
+    </form>
+    <table id="tableId">
+        <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Unidad vta</th>
+            <th>Categoría</th>
+            <th>Stock actual</th>
+            <th>Stock reservado</th>
+            <th>Stock por rercibir</th>
+            <th>Stock futuro</th>
+            <th>Pedidos pendientes</th>
+        </tr>
+        </thead>
+        <tbody id="tableBody">
+        <tr>
+            <td><button onclick="sortTable(0, event)">Ordenar</button></td>
+            <td><button onclick="sortTable(1, event)">Ordenar</button></td>
+            <td><button onclick="sortTable(2, event)">Ordenar</button></td>
+            <td><button onclick="sortTable(3, event)">Ordenar</button></td>
+            <td><button onclick="sortTable(4, event)">Ordenar</button></td>
+            <td><button onclick="sortTable(5, event)">Ordenar</button></td>
+            <td><button onclick="sortTable(6, event)">Ordenar</button></td>
+            <td><button onclick="sortTable(7, event)">Ordenar</button></td>
+            <td><button onclick="sortTable(8, event)">Ordenar</button></td>
+        </tr>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[6] }}</td>
+            <td>{{ row[7] }}</td>
+            <td>{{ row[8] }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %} 

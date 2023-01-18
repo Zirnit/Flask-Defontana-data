@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block content %}
+  <h1>Order Details</h1>
+  <table>
+    <tr>
+      <th>Number</th>
+      <td>{{ data[0] }}</td>
+    </tr>
+    <tr>
+      <th>Client Name</th>
+      <td>{{ data[3] }}</td>
+    </tr>
+  </table>
+  <h2>Details</h2>
+  <table>
+    <tr>
+      <th>Total</th>
+      <th>Discount Type</th>
+      <th>Discount Value</th>
+      <th>Is Exempt</th>
+      <th>Detailed Description</th>
+      <th>Comment</th>
+      <th>Count</th>
+      <th>Unit</th>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Is Service</th>
+      <th>Price</th>
+    </tr>
+    {% for detail in data["orderData"]["details"] %}
+      <tr>
+        <td>{{ detail["total"] }}</td>
+        <td>{{ detail["discountType"] }}</td>
+        <td>{{ detail["discountValue"] }}</td>
+        <td>{{ detail["isExempt"] }}</td>
+        <td>{{ detail["detailedDescription"] }}</td>
+        <td>{{ detail["comment"] }}</td>
+        <td>{{ detail["count"] }}</td>
+        <td>{{ detail["unit"] }}</td>
+        <td>{{ detail["name"] }}</td>
+        <td>{{ detail["code"] }}</td>
+        <td>{{ detail["isService"] }}</td>
+        <td>{{ detail["price"] }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  <h2>Total</h2>
+  <p>{{ data["orderData"]["totals"]["total"] }}</p>
+{% endblock %}  

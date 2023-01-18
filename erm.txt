@@ -1,0 +1,49 @@
+                                                    +-------------------------+
+                                                    |  detalle_pedido         |
+                                                    +-------------------------+
+                                                    |  number (PK)            |
+                                                    |  document_type_id       |
+                                                    |  client_file_id         |
+                                                    |  client_name            |
+                                                    |  client_giro            |
+                                                    |  client_address         |
+                                                    |  client_country         |
+                                                    |  client_city            |
+                                                    |  client_region          |
+                                                    |  client_district        |
+                                                    |  client_email           |
+                                                    |  client_phone           |
+                                                    |  creation_date          |
+                                                    |  shop_id                |
+                                                    |  billing_coind_id       |
+                                                    |  billing_rate           |
+                                                    |  seller_id              |
+                                                    |  expiration_date        |
+                                                    |  comment                |
+                                                    |  billing_comment        |
+                                                    |  dispatch_comment       |
+                                                    +-------------------------+
+                                                    |                         |
+                                                    |                         |
++------------------------+                         |                         |
+| detalle_pedido_detalle |                         |                         |
++------------------------+                         |                         |
+| detalle_pedido_id (PK) |                         |                         |
+| detalle_id (PK)       +-------------------------+                         |
++------------------------+                                                  |
+                                                                            |
+                                                                            |
+                                                                            |
+                                                                            |
+                                                                            |
+                                                                   +-------------------------+
+                                                                   |  detalle                |
+                                                                   +-------------------------+
+                                                                   |  id (PK)                |
+                                                                   |  total                  |
+                                                                   |  discount_type          |
+                                                                   |  discount_value         |
+                                                                   |  is_exempt              |
+                                                                   |  detailed_description   |
+                                                                   |  comment                |
+                                                                   +-------------------------+

@@ -1,0 +1,92 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Open Sans', sans-serif;
+  color: #333333;
+}
+
+th {
+  background-color: #006633;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+  border-top: 4px solid #006633;
+  border-bottom: 4px solid #006633;
+  color: white;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #e6f7ff;
+}
+
+td:hover {
+  color: #006633;
+}
+
+button {
+  background-color: #00b900;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #00a600;
+}
+
+button:active {
+  background-color: #008900;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.filter select {
+  width: 150px;
+  height: 36px;
+  font-size: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  padding: 8px;
+  outline: none;
+  background-color: #f2f2f2;
+  color: #333333;
+}
+
+.filter select:focus {
+  border-color: #00b900;
+}
+
+.filter button {
+  background-color: #00b900;
+  color: white;
+  font-size: 16px;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter button:hover {
+  background-color: #00a600;
+}
+
+.filter button:active {
+  background-color: #008900;
+}

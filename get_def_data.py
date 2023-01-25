@@ -34,25 +34,11 @@ def get_order_data(order_number):
 def obtener_articulos():
     url = "https://api.defontana.com/api/Sale/Getproducts"
     itemspp = 250
+    data = "productList"
+    dict_pagenumber = "pageNumber"
     querystring = {"status":"1","itemsPerPage":itemspp,"pageNumber":"1"}
-    response = requests.request("GET", url, headers=headers, params=querystring).json()
-    num_paginas = ceil(response["totalItems"]/response["itemsPerPage"])
-    todas_las_respuestas = ["["]
-    for i in range(1, num_paginas+1):
-        querystring = {"status":"0","itemsPerPage":itemspp,"pageNumber":i}
-        response = requests.request("GET", url, headers=headers, params=querystring)
-        respuesta = json.loads(response.text)["productList"]
-        for h in respuesta:
-            todas_las_respuestas.append(str(h))
-            todas_las_respuestas.append(",")
-    listaAux = "".join(todas_las_respuestas)
-    listaAux = listaAux.replace(r"\xa0", "")
-    listaAux = listaAux.replace("None", "'None'")
-    listaAux = listaAux.replace("False","'False'")
-    listaAux = listaAux.replace("True","'True'")
-    listaAux = listaAux.replace("'","\"")
-    listaAux = listaAux[:-2] + "}]"
-    listaJson = json.loads(listaAux)
+    num_paginas = obtener_n_paginas(url, querystring)
+    listaJson = obtener_datos_paginados(url, itemspp, num_paginas, querystring, data, dict_pagenumber)
     return listaJson
 
 def obtener_categorías():
@@ -63,6 +49,9 @@ def obtener_categorías():
 
 def obtener_lista_ordenes_compra():
     url = "https://api.defontana.com/api/PurchaseOrder/List"
+    itemspp = 100
+    data = "data"
+    dict_pagenumber = "Page"
     querystring = {
         "FromDate" : "2022-01-01",
         "ToDate" : hoy,
@@ -70,30 +59,8 @@ def obtener_lista_ordenes_compra():
         "Page" : "0",
         "Status" : 0
     }
-    response = requests.request("GET", url, headers=headers, params=querystring).json()
-    num_paginas = ceil(response["totalItems"]/response["itemsPerPage"])
-    todas_las_respuestas = ["["]
-    for i in range(1, num_paginas+1):
-        querystring = {
-        "FromDate" : "2020-01-01",
-        "ToDate" : hoy,
-        "ItemsPerPage": "10",
-        "Page" : i,
-        "Status" : 0
-        }
-        response = requests.request("GET", url, headers=headers, params=querystring)
-        respuesta = json.loads(response.text)["data"]
-        for h in respuesta:
-            todas_las_respuestas.append(str(h))
-            todas_las_respuestas.append(",")
-    listaAux = "".join(todas_las_respuestas)
-    listaAux = listaAux.replace(r"\xa0", "")
-    listaAux = listaAux.replace("None", "'None'")
-    listaAux = listaAux.replace("False","'False'")
-    listaAux = listaAux.replace("True","'True'")
-    listaAux = listaAux.replace("'","\"")
-    listaAux = listaAux[:-2] + "}]"
-    listaJson = json.loads(listaAux)
+    num_paginas = obtener_n_paginas(url, querystring)
+    listaJson = obtener_datos_paginados(url, itemspp, num_paginas, querystring, data, dict_pagenumber)
     lista_OC = []
     for item in listaJson:
         lista_OC.append(obtener_ordenes_compra(item["number"]))
@@ -109,18 +76,39 @@ def obtener_stock_futuro():
     url = "https://api.defontana.com/api/Inventory/GetFutureStockInfo"
     itemspp = 250
     querystring = {"ItemsPerPage":itemspp,"Page":"1"}
-    response = requests.request("GET", url, headers=headers, params=querystring).json()
-    num_paginas = ceil(response["totalItems"]/response["itemsPerPage"])
+    num_paginas = obtener_n_paginas(url,querystring)
+    data = "productsDetail"
+    dict_pagenumber="Page"
+    listaJson = obtener_datos_paginados(url,itemspp,num_paginas,querystring,data,dict_pagenumber)
+    return listaJson
+
+def obtener_proveedores():
+    url = "https://api.defontana.com/api/PurchaseOrder/GetProviders"
+    itemspp = 250
+    dict_pagenumber = "pageNumber"
+    querystring = {"status":"0","itemsPerPage":itemspp,dict_pagenumber:1}
+    data = "providersList"
+    num_paginas = obtener_n_paginas(url, querystring)
+    return obtener_datos_paginados(url, itemspp, num_paginas, querystring, data, dict_pagenumber)
+
+def obtener_datos_paginados(url, itemspp, num_paginas, querystring, data, dict_pagenumber):
     todas_las_respuestas = ["["]
     for i in range(1, num_paginas+1):
-        querystring = {"status":"0","itemsPerPage":itemspp,"Page":i}
+        querystring = {"status":"0","itemsPerPage":itemspp,dict_pagenumber:i}
         response = requests.request("GET", url, headers=headers, params=querystring)
-        respuesta = json.loads(response.text)["productsDetail"]
-        for h in respuesta:
-            todas_las_respuestas.append(str(h))
+        response.raise_for_status()
+        respuesta = json.loads(response.text)[data]
+        for r in respuesta:
+            if "address" in r and r["address"]:
+                if '"' in r["address"]:
+                    r["address"] = str(r["address"]).replace('"',"")
+                if "'" in r["address"]:
+                    r["address"] = str(r["address"]).replace("'","")
+            todas_las_respuestas.append(str(r))
             todas_las_respuestas.append(",")
     listaAux = "".join(todas_las_respuestas)
     listaAux = listaAux.replace(r"\xa0", "")
+    listaAux = listaAux.replace("\\","")
     listaAux = listaAux.replace("None", "'None'")
     listaAux = listaAux.replace("False","'False'")
     listaAux = listaAux.replace("True","'True'")
@@ -128,3 +116,10 @@ def obtener_stock_futuro():
     listaAux = listaAux[:-2] + "}]"
     listaJson = json.loads(listaAux)
     return listaJson
+
+def obtener_n_paginas(url, querystring):
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    response.raise_for_status()
+    response = response.json()
+    num_paginas = ceil(response["totalItems"]/response["itemsPerPage"])
+    return num_paginas

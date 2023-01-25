@@ -6,6 +6,12 @@
   <script type="text/javascript" src="{{url_for('static', filename='sort.js')}}"></script>
 </head>
 <body>
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('articulos') }}">Articulos</a></li>
+    </ul>
+  </nav>
   {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
   {% endfor %}

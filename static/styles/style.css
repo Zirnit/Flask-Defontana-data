@@ -90,3 +90,41 @@ button:active {
 .filter button:active {
   background-color: #008900;
 }
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #006633;
+  color: white;
+  padding: 8px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav li {
+  margin-right: 8px;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+nav a:hover {
+  background-color: #00a600;
+}
+
+nav a:active {
+  background-color: #008900;
+}

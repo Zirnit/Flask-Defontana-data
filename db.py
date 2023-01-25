@@ -30,7 +30,7 @@ def cargar_articulos(item):
     if pedidos_reserva:
         pedidos_reserva = ", ".join(pedidos_reserva)
     else:
-        pedidos_reserva = "0"
+        pedidos_reserva = ""
     try:
         cursor.execute(
         'INSERT INTO articulo (id_articulo,nombre,unidad_venta,cod_categoria,stock_actual,stock_reservado, pedidos_reserva) '

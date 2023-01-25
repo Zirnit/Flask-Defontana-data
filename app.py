@@ -74,7 +74,7 @@ def detalle_pedido(order_number):
     # return render_template('detalle_pedido.html', data=result)
 
 @app.route('/articulos', methods=["GET","POST"])
-def show_products():
+def articulos():
     if request.method == 'POST':
         # Update the database with data from the API
         update_database()
@@ -102,10 +102,10 @@ def show_products():
     else:
         # Execute the default query
         cursor.execute(
-        'SELECT {} '.format(', '.join(list(valid_columns.values())[0:-1])) + ', round((stock_actual - stock_reservado),2) as stock_futuro, pedidos_reserva '
-        'FROM articulo '
-        'INNER JOIN categoria ON cod_categoria=id_categoria '
-        'ORDER BY stock_futuro ASC'
+            'SELECT {} '.format(', '.join(list(valid_columns.values())[0:-1])) + ', round((stock_actual - stock_reservado + stock_por_recibir),2) as stock_futuro, pedidos_reserva '
+            'FROM articulo '
+            'INNER JOIN categoria ON cod_categoria=id_categoria '
+            'ORDER BY stock_futuro ASC'
             )
     # Fetch all the rows from the query
     rows = cursor.fetchall()

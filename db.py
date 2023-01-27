@@ -1,5 +1,8 @@
 import os
 import mysql.connector
+import click
+from flask.cli import with_appcontext
+from schema import instructions
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -9,6 +12,20 @@ load_dotenv()
 cnx = mysql.connector.connect(user=os.getenv('MYSQL_USER'), password=os.getenv('MYSQL_PASSWORD'),
                               host=os.getenv('MYSQL_HOST'), database=os.getenv('MYSQL_DB'))
 cursor = cnx.cursor()
+
+def init_db():
+
+    for i in instructions:
+        cursor.execute(i)
+    
+    cnx.commit()
+
+# Tengo que aprender a hacer funcionar esto
+@click.command("init-db")
+@with_appcontext
+def init_db_command():
+    init_db()
+    click.echo("Base de datos inicializada")
 
 def cargar_articulos(item):
     id_articulo = int(item["code"])

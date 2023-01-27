@@ -16,6 +16,10 @@ cnx = mysql.connector.connect(user=os.getenv('MYSQL_USER'), password=os.getenv('
 cursor = cnx.cursor()
 
 # Function to update the database with data from the API
+"""
+Actualizar en un futuro las funciones para pasar una tupla en vez de un item de una lista
+***usar cursor.executemany(query, my_data)
+"""
 def update_database():
     # Actualiza artículos
     articulos = GD.obtener_articulos()
@@ -78,6 +82,7 @@ def articulos():
     if request.method == 'POST':
         # Update the database with data from the API
         update_database()
+        return redirect(url_for('articulos'), code=303)
     # Execute the SELECT query
     valid_columns = {
     '0': 'id_articulo',
